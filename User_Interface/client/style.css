@@ -1,0 +1,233 @@
+:root {
+    --side-nav-width: 90px;
+    --chats-nav-width: 240px;
+    --chat-messages-width: 33%;
+    --newchatbutton-size: 28px;
+    --newchatbutton-icon-size: 22px;
+    --appsmenu-icon-size: 32px;
+    --small-icon-size: 16px;
+}
+
+.side-nav {
+    width: var(--side-nav-width);
+    min-width: var(--side-nav-width);
+}
+
+.chats-nav {
+    width: var(--chats-nav-width);
+    min-width: var(--chats-nav-width);
+}
+
+.chat-messages {
+    width: var(--chat-messages-width);
+    min-width: var(--chat-messages-width);
+}
+
+.search-field {
+    width: inherit;
+}
+
+#newchatbutton {
+    width: var(--newchatbutton-size);
+    height: var(--newchatbutton-size);
+    min-width: var(--newchatbutton-size);
+}
+
+#newchatbutton .material-icons {
+    font-size: var(--newchatbutton-icon-size);
+    line-height: var(--newchatbutton-icon-size);
+}
+
+#appsmenu a {
+    display: inline-block;
+}
+
+#appsmenu .material-icons {
+    font-size: var(--appsmenu-icon-size);
+    line-height: var(--appsmenu-icon-size);
+    width: var(--appsmenu-icon-size);
+    height: var(--appsmenu-icon-size);
+    overflow: hidden;
+}
+
+.chat-item .material-icons {
+    font-size: var(--small-icon-size);
+    line-height: var(--small-icon-size);
+}
+
+.dot-background {
+    background-image: radial-gradient(#00000033 3%, transparent 10%);
+    background-size: 20px 20px;
+}
+
+.app-title .material-icons {
+    vertical-align: middle;
+    font-size: 44px;
+    line-height: 24px;
+    width: 44px;
+}
+
+.app-badge {
+    font-size: xx-small;
+}
+
+.capacity-indecator {
+    transition: 320ms;
+}
+
+.capacity-indecator[style='width: 0%'] {
+    opacity: 0;
+}
+
+.capacity-indecator[style='width: 100%;'] {
+    background-color: #fecaca;
+}
+
+
+#messageform .processing-icon {
+    display: none;
+}
+
+#messageform.processing .processing-icon {
+    display: block;
+}
+
+#chatmessages li {
+    white-space: pre-wrap;
+    transition: 320ms;
+}
+
+#chatmessages li:has(.message-footer) {
+    border-top: 3px solid transparent;
+    border-bottom: 3px solid transparent;
+    padding-bottom: 0;
+}
+
+#chatmessages li.current-content {
+    border-bottom: 3px solid #A6543c;
+    border-top: 3px solid #A6543c;
+}
+
+.current-content button i {
+    color: #A6543c;
+}
+
+
+.message-footer {
+    font-size: 22px;
+    line-height: 22px;
+    transition: 320ms;
+}
+
+.message-footer button {
+    font-size: 22px;
+    line-height: 22px;
+    color: #00000099;
+}
+
+.current-content .message-footer {
+    padding-left: calc(100% - 26px);
+}
+
+.message-user {
+    top: -0px
+}
+
+.user .message-user {
+    left: -35px;
+}
+
+.response .message-user {
+    right: -35px;
+
+}
+
+.response .message-user.material-icons {
+    font-size: 2rem;
+    line-height: 2rem;
+}
+
+.current-chat {
+    margin-right: -12px;
+    background: linear-gradient(90deg, rgba(96, 165, 250, 1) 0%, rgba(255, 255, 255, 1) 90%);
+    box-shadow: rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0.1) 0px 1px 3px 0px, rgba(0, 0, 0, 0.06) 0px 1px 2px 0px;
+}
+
+.current-chat a {
+    color: #FFF !important;
+    text-shadow: 0px 0px 2px #1e3a8a;
+    cursor: default;
+}
+
+
+.message-wrapper:has(:focus) {
+    border-color: #1e40af;
+}
+
+.textarea {
+    font-family: inherit;
+    font-size: inherit;
+    padding: 1px 6px;
+    display: block;
+    width: 100%;
+    overflow: auto;
+    resize: none;
+    min-height: 20px;
+    max-height: 120px;
+    line-height: inherit;
+    word-break: break-word;
+}
+
+.textarea * {
+    font-family: inherit !important;
+    font-size: inherit !important;
+    line-height: inherit !important;
+    word-break: break-word !important;
+    background: none !important;
+    border: none !important;
+    border-radius: 0 !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    display: inline !important;
+    color: #000000DD !important;
+}
+
+.textarea img {
+    display: none !important;
+}
+
+.textarea[contenteditable]:empty::before {
+    content: "Your message hear";
+    color: gray;
+}
+
+#submitbutton {
+    width: 26px;
+    height: 26px;
+    min-width: 26px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#submitbutton:disabled {
+    background-color: #00000033 !important;
+    cursor: default;
+}
+
+#submitbutton i {
+    font-size: 18px;
+    line-height: 18px;
+}
+
+#recordbutton {
+    width: 24px;
+    height: 24px;
+    min-width: 24px;
+}
+
+#textarea-user {
+    width: 32px;
+    height: 32px;
+    min-width: 32px;
+}
