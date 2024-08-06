@@ -1,5 +1,9 @@
                                                            -*- text -*-
 
+Please use a .env file containing the api keys. Also use 'npm install' before first run.
+
+
+
 This directory contains various optional utilities to help you use
 Wget.
 
