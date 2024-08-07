@@ -1,12 +1,19 @@
 import React from 'react'
 import "./style.css"
 import { useState } from 'react'
-
+import { getLlamaResponse } from './LlamaEngine';
 
 
 export default function App(){
     const [messages, setMessages] = useState([]);
     const [input, setInput] = useState('');
+
+    async function handleBotResponse(){
+        const messageInfoBot = {text: `${await getLlamaResponse()}`, role: 'bot'}
+        setTimeout(() => {
+            setMessages((prevMessages) => [...prevMessages, messageInfoBot]);
+        }, 500);
+    }
 
     const handleSend = () => {
     if(input.trim() === ''){
@@ -16,10 +23,7 @@ export default function App(){
     const messageInfoUser = {text: input, role: 'user'};
     setMessages([...messages, messageInfoUser]);
 
-    const messageInfoBot = {text: `Sample response ${input}`, role: 'bot'}
-        setTimeout(() => {
-            setMessages((prevMessages) => [...prevMessages, messageInfoBot]);
-        }, 500);
+    handleBotResponse();
 
         setInput('');
 }
