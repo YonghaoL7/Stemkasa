@@ -6,17 +6,19 @@ const groq = new Groq({
     dangerouslyAllowBrowser: true
 });
 
-export async function getLlamaResponse(){
-    const llamaResponse = await getResponse();
 
+
+export async function getLlamaResponse(usrText){
+    const llamaResponse = await getResponse(usrText);
     return(llamaResponse.choices[0]?.message?.content || "");
 }
 
-export async function getResponse(){
+
+export async function getResponse(query){
     return groq.chat.completions.create({
         messages: [{
             role: "user",
-            content: "Explain the riemann hypothesis",
+            content: `${query}`,
         }],
         model: "llama3-8b-8192",
     });
