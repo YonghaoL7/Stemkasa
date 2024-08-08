@@ -8,8 +8,11 @@ export default function App(){
     const [messages, setMessages] = useState([]);
     const [input, setInput] = useState('');
 
-    async function handleBotResponse(){
-        const messageInfoBot = {text: `${await getLlamaResponse()}`, role: 'bot'}
+    async function handleResponses(){
+        const messageInfoUser = {text: input, role: 'user'};
+        setMessages([...messages, messageInfoUser]);
+
+        const messageInfoBot = {text: `${await getLlamaResponse(input)}`, role: 'bot'}
         setTimeout(() => {
             setMessages((prevMessages) => [...prevMessages, messageInfoBot]);
         }, 500);
@@ -20,12 +23,9 @@ export default function App(){
         return;
     }
 
-    const messageInfoUser = {text: input, role: 'user'};
-    setMessages([...messages, messageInfoUser]);
+    handleResponses();
 
-    handleBotResponse();
-
-        setInput('');
+    setInput('');
 }
     const handleInputChange = (e) => {
     setInput(e.target.value)
