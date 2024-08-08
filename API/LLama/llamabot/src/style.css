@@ -53,7 +53,16 @@
     margin-right: 10px;
 }
 
-.chatbot-input button {
+.chatbot-input .btn-send {
+    padding: 4px 8px;
+    border: none;
+    background-color: blueviolet;
+    color: white;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.chatbot-input .btn-voice {
     padding: 4px 8px;
     border: none;
     background-color: blueviolet;

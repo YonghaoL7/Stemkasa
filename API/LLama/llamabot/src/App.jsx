@@ -71,8 +71,8 @@ export default function App(){
                     onKeyPress={handleKeyPress}
                     placeholder="Type a message..."
                 />
-                <button onClick={handleSend}>Send</button>
-                <button onClick={handleVoice}>Voice</button>
+                <button className="btn-send" onClick={handleSend}>Send</button>
+                <button className="btn-voice" onClick={handleVoice}>Voice</button>
             </div>
         </div>
     )
