@@ -1,8 +1,11 @@
 import Groq from "groq-sdk";
+//import 'dotenv/config'
 
 const groq = new Groq({
     //apiKey: ProcessingInstruction.env.GROQ_API_KEY
-    apiKey: "",
+    //apiKey: "",
+    //apiKey: process.env.REACT_APP_GROQ_API_KEY,
+    apiKey:"",
     dangerouslyAllowBrowser: true
 });
 
@@ -14,12 +17,19 @@ export async function getLlamaResponse(usrText){
 }
 
 
-export async function getResponse(query){
+// export async function getResponse(query){
+//     return groq.chat.completions.create({
+//         messages: [{
+//             role: "user",
+//             content: `${query}`,
+//         }],
+//         model: "llama3-8b-8192",
+//     });
+// }
+
+export async function getResponse(messages){
     return groq.chat.completions.create({
-        messages: [{
-            role: "user",
-            content: `${query}`,
-        }],
+        messages: messages,
         model: "llama3-8b-8192",
     });
 }
