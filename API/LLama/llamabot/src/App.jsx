@@ -2,7 +2,10 @@ import React from 'react'
 import "./style.css"
 import { useState } from 'react'
 import { getLlamaResponse } from './LlamaEngine';
-
+import {  } from '@fortawesome/react-fontawesome'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import {faChevronRight} from '@fortawesome/free-solid-svg-icons'
+import { faMicrophone } from '@fortawesome/free-solid-svg-icons';
 
 export default function App(){
     const [messages, setMessages] = useState([]);
@@ -51,7 +54,27 @@ export default function App(){
     };
 
     const handleVoice = () => {
-        //Integrate voice
+        const recognition = new window.webkitSpeechRecognition();
+        recognition.continuous = false; 
+        recognition.interimResults = false; 
+        recognition.lang = 'en-US';
+
+        recognition.start();
+
+        recognition.onresult = (event) => {
+            const transcript = event.results[0][0].transcript;
+            setInput(transcript); 
+            handleSend(); 
+        };
+
+        recognition.onerror = (event) => {
+            console.error("Speech recognition error: ", event.error);
+            alert('Speech recognition error occurred. Please try again.');
+        };
+    
+        recognition.onend = () => {
+            console.log("Speech recognition ended.");
+        };
     };
     
     return(
@@ -71,8 +94,12 @@ export default function App(){
                     onKeyPress={handleKeyPress}
                     placeholder="Type a message..."
                 />
-                <button className="btn-send" onClick={handleSend}>Send</button>
-                <button className="btn-voice" onClick={handleVoice}>Voice</button>
+                <button className="btn-send" onClick={handleSend}>
+                    <FontAwesomeIcon icon={faChevronRight} />
+                </button>
+                <button className="btn-voice" onClick={handleVoice}>
+                    <FontAwesomeIcon icon={faMicrophone} />
+                </button>
             </div>
         </div>
     )
