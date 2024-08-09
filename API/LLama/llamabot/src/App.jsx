@@ -4,22 +4,27 @@ import { useState } from 'react'
 import { getLlamaResponse } from './LlamaEngine';
 import {  } from '@fortawesome/react-fontawesome'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import {faChevronRight} from '@fortawesome/free-solid-svg-icons'
-import { faMicrophone } from '@fortawesome/free-solid-svg-icons';
+import { faChevronRight, faMicrophone, faPause, faRotateRight } from '@fortawesome/free-solid-svg-icons'
 
 export default function App(){
-    const [messages, setMessages] = useState([]);
+    //const [messages, setMessages] = useState([]);
+    const [messages, setMessages] = useState(() => {
+        const savedConversation = localStorage.getItem('conversation');
+        return savedConversation ? JSON.parse(savedConversation) : [];
+    });
     const [input, setInput] = useState('');
 
-    // async function handleResponses(){
-    //     const messageInfoUser = {text: input, role: 'user'};
-    //     setMessages([...messages, messageInfoUser]);
+    // useEffect(() => {
+    //     const savedMessages = JSON.parse(localStorage.getItem('chatMessages'));
+    //     if (savedMessages) {
+    //         setMessages(savedMessages);
+    //     }
+    // }, []);
 
-    //     const messageInfoBot = {text: `${await getLlamaResponse(input)}`, role: 'bot'}
-    //     setTimeout(() => {
-    //         setMessages((prevMessages) => [...prevMessages, messageInfoBot]);
-    //     }, 500);
-    // }
+    // useEffect(() => {
+    //     localStorage.setItem('chatMessages', JSON.stringify(messages));
+    // }, [messages]);
+
 
     async function handleResponses(){
         const userMessage = { role: 'user', content: input };
@@ -76,6 +81,16 @@ export default function App(){
             console.log("Speech recognition ended.");
         };
     };
+
+    const handleContinueLater = () => {
+        localStorage.setItem('conversation', JSON.stringify(messages));
+        alert('Conversation saved! You can continue later.');
+    };
+
+    const handleNewChat = () => {
+        setMessages([]);
+        localStorage.removeItem('chatMessages');
+    };
     
     return(
         <div className="chatbot-container">
@@ -99,6 +114,12 @@ export default function App(){
                 </button>
                 <button className="btn-voice" onClick={handleVoice}>
                     <FontAwesomeIcon icon={faMicrophone} />
+                </button>
+                <button className="btn-continue" onClick={handleContinueLater}>
+                    <FontAwesomeIcon icon={faPause} />
+                </button>
+                <button className="btn-new-chat" onClick={handleNewChat}>
+                    <FontAwesomeIcon icon={faRotateRight} />
                 </button>
             </div>
         </div>

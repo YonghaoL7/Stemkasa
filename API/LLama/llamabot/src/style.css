@@ -1,4 +1,4 @@
-:root{
+/* :root{
     --dark: #0d1b2a;
     --light: #e0e1dd;
     --bottom: #1b263b;
@@ -84,6 +84,102 @@
     color: white;
     border-radius: 20px;
     cursor: pointer;
+}
+
+.chatbot-input button:hover {
+    background-color: #006bbd;
+} */
+
+:root{
+    --dark: #0d1b2a;
+    --light: #e0e1dd;
+    --bottom: #1b263b;
+    --top: #778da9;
+    --mid: #415a77;
+    --dark-blue: #003366;
+}
+
+*{
+    box-sizing: border-box;
+    padding: 0;
+    margin: 0;
+}
+
+.chatbot-container {
+    width: 500px;
+    height: 600px;
+    border: 1px solid var(--dark);
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    background-color: var(--dark);
+    margin: 20px auto;
+}
+
+.chatbot-messages {
+    padding: 10px;
+    flex-grow: 1;
+    overflow-y: auto;
+    background-color: var(--bottom);
+    border-bottom: 1px solid var(--dark);
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+}
+
+.message {
+    margin-bottom: 10px;
+    padding: 8px 12px;
+    border-radius: 10px;
+    max-width: 80%;
+    word-wrap: break-word;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+.message.user {
+    background-color: var(--top);
+    color: var(--light);
+    align-self: flex-end;
+}
+
+.message.assistant {
+    background-color: var(--dark-blue);
+    color: var(--light);
+    align-self: flex-start;
+}
+
+
+.chatbot-input {
+    padding: 10px;
+    display: flex;
+    border-top: 1px solid #ddd;
+}
+
+.chatbot-input input {
+    flex-grow: 1;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    margin-right: 5px;
+}
+
+.chatbot-input button {
+    width: 40px;
+    height: 40px;
+    border: none;
+    background-color: blueviolet;
+    color: white;
+    border-radius: 20px;
+    cursor: pointer;
+    margin-right: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.chatbot-input button:last-child {
+    margin-right: 0;
 }
 
 .chatbot-input button:hover {
