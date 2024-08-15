@@ -137,6 +137,7 @@ class ConversationalAppEngineClient {
     }
 
     addMessage(message, messageClass, id, userName, userImageUrl, userIconName) {
+        console.log("addMessage")
         let messageUser = '';
         if (userImageUrl) {
             messageUser = `<img src="${userImageUrl}" class="message-user rounded-full w-8 h-8 absolute"/>`
@@ -153,6 +154,7 @@ class ConversationalAppEngineClient {
     }
 
     getCurrentChatId() {
+        console.log("getCurrentChatId")
         let chatid = localStorage.getItem(this.getChatIdLocalStorageKey(this.getUserId()));
         if (!chatid) {
             chatid = this.newChat();
@@ -161,6 +163,7 @@ class ConversationalAppEngineClient {
     }
 
     addChatItem(chatid, chatName) {
+        console.log("addChatItem")
         this.chatsList.innerHTML += "<li class='chat-item flex bg-white rounded-md mb-1 px-2 py-1 items-center hover:bg-gray-200' id='chat" + chatid + "'><a class='flex-grow cursor-pointer font-bolder text-gray-600 hover:text-gray-900' tabindex=\"0\" onclick=\"appEngine.showChat('" + chatid + "')\">" + chatName + "</a><button onclick=\"appEngine.deleteChat('" + chatid + "')\"><i class='material-icons text-gray-400 hover:text-gray-600'>delete</i></button></li>";
     }
 
@@ -183,6 +186,7 @@ class ConversationalAppEngineClient {
     }
 
     setCurrentChatId(chatid) {
+        console.log("setCurrentChatId")
         localStorage.setItem(this.getChatIdLocalStorageKey(this.getUserId()), chatid);
     }
 
@@ -198,23 +202,27 @@ class ConversationalAppEngineClient {
     }
 
     showContent(index) {
+        console.log("showContent")
         if (this.contentList[index]) {
             this.setContentPreview(this.contentList[index], index);
         }
     }
 
     showChat(chatid) {
+        console.log("showChat")
         this.setCurrentChatId(chatid);
         this.loadMessages(chatid);
         this.setCurrentChat(chatid);
     }
 
     setCurrentChat(chatid) {
+        console.log("setCurrentChat")
         document.querySelectorAll('.chat-item').forEach((li) => li.classList.remove('current-chat'));
         document.getElementById('chat' + chatid).classList.add('current-chat');
     }
 
     addResponse(response, isNew) {
+        console.log("addResponse")
         let responseMessage = response.message;
 
         const appContent = response.appContent;
@@ -240,8 +248,22 @@ class ConversationalAppEngineClient {
         if (isNew && "speechSynthesis" in window && response.message) {
             const parsedHtml = new DOMParser().parseFromString(response.message, "text/html");
             const text = parsedHtml.body.textContent || parsedHtml.body.innerText || "";
-            if(text.trim()) {
-                speechSynthesis.speak(new SpeechSynthesisUtterance(text));
+
+            function speakText() {
+                var utterance = new SpeechSynthesisUtterance(text);
+                var voices = window.speechSynthesis.getVoices();
+                utterance.voice = voices.filter(function(voice) { return voice.name == 'Google US English'; })[0];
+                if (text.trim()) {
+                    window.speechSynthesis.speak(utterance);
+                }
+            }
+            //ensure the voices are fully loaded before setting voice
+            if (window.speechSynthesis.getVoices().length !== 0) {
+                speakText();
+            } else {
+                window.speechSynthesis.onvoiceschanged = function() {
+                    speakText();
+                };
             }
         } else {
             console.log("Text to Speech Not Available");
@@ -257,11 +279,13 @@ class ConversationalAppEngineClient {
     }
 
     setContentPreview(html, formIndex) {
+        console.log("setContentPreview")
         this.setCurrentContentMessage(formIndex);
         this.setInnerHTML(this.contentPreview, html);
     }
 
     setInnerHTML(elm, html) {
+        console.log("setInnerHTML")
         elm.innerHTML = html;
 
         Array.from(elm.querySelectorAll("script"))
@@ -280,6 +304,7 @@ class ConversationalAppEngineClient {
     }
 
     setCurrentContentMessage(contentIndex) {
+        console.log("setCurrentContentMessage")
         for (let i = 0; i < this.contentList.length; i++) {
             if (i == contentIndex) {
                 document.getElementById('content' + i).classList.add('current-content');
@@ -290,6 +315,7 @@ class ConversationalAppEngineClient {
     }
 
     postMessage() {
+        console.log("client postMessage")
         const message = this.messageField.innerText.trim();
         if (!message) {
             return false;
@@ -303,7 +329,6 @@ class ConversationalAppEngineClient {
         this.disableChat();
         this.messageform.classList.add('processing');
 
-        //send messgae to the server
         fetch(`${location.origin}/api/chat?app=${this.app.app}`, {
             method: "POST",
             body: JSON.stringify(data),
@@ -333,6 +358,7 @@ class ConversationalAppEngineClient {
     }
 
     loadMessages(chatid) {
+        console.log("loadMessages")
         fetch(`${location.origin}/api/chatmessages?app=${this.app.app}&userid=${this.getUserId()}&chatid=${chatid}`, {
             method: "get",
         })
@@ -344,6 +370,8 @@ class ConversationalAppEngineClient {
                     if (i++ % 2) {
                         this.addMessage(responseMessage.message, this.mesageStyleClasses.user, undefined, this.user.name, this.user.imageUrl);
                     } else {
+                        console.log(responseMessage)
+
                         this.addResponse(responseMessage);
                     }
                 }
@@ -355,6 +383,7 @@ class ConversationalAppEngineClient {
     }
 
     loadUserChats() {
+        console.log("loadUserChats")
         const userid = this.getUserId();
 
         fetch(`${location.origin}/api/userchats?app=${this.app.app}&userid=${userid}`, {
@@ -389,6 +418,7 @@ class ConversationalAppEngineClient {
     }
 
     getChatIdLocalStorageKey(userid) {
+        console.log("getChatIdLocalStorageKey")
         const params = (new URL(document.location)).searchParams;
         let appId = params.get("app");
         appId = appId ? '-' + appId : '';
@@ -445,6 +475,7 @@ class CurrentUser {
 
     constructor(userTask) {
         this.userId = localStorage.getItem('chat-user-id');
+        // this.userId = "354"
         if (!this.userId) {
             this.userId = Math.random().toString(36).substring(2, 15);
             localStorage.setItem('chat-user-id', this.userId);
