@@ -10,7 +10,9 @@ class ConversationalApp {
     contentPreviewPlaceholder = 'No Preview';
     chatStartInstruction = 'How can I help you?';
     appIconName = 'token';
-
+    botid = 0;
+    ApiName = "openai"
+    
     temperature = 1;
     model = 'gpt-3.5-turbo';
     modelMaxTokens = 4096;
