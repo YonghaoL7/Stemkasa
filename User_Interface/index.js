@@ -4,6 +4,7 @@ import express from 'express';
 import bodyParser from 'body-parser';
 import cors from 'cors';
 import fs from 'fs';
+import { connectClient } from './db.js';
 
 const port = 3000;
 
@@ -11,6 +12,7 @@ const port = 3000;
 const defaultEngineClassName = 'QuizGenerator';
 const engines = {};
 const appPath = './apps';
+
 fs.readdirSync(appPath).forEach(file => {
     // load app clases from apps folder
     if (!file.endsWith('.js')) {
@@ -65,6 +67,22 @@ app.get('/', (req, res) => {
         }
     });
 });
+
+app.get('/speech-api-key', (req, res) => {
+    res.json({ key: process.env.REACT_APP_TTS_API_KEY});
+})
+
+app.get('/tts.js', (req, res) => {
+    fs.readFile('client/tts.js', (err, data) => {
+        if (err) {
+            res.writeHead(500, { 'Content-Type': 'text/html' });
+            res.end('Error loading the file');
+        } else {
+            res.writeHead(200, { 'Content-Type': 'text/javascript' });
+            res.end(data);
+        }
+    })
+})
 
 app.get('/script.js', (req, res) => {
     const appName = getAppNameFromRequest(req);
@@ -191,6 +209,67 @@ app.post('/api/chat', (req, res) => {
 
         res.json(data);
     });
+});
+
+//new add
+
+let db;
+const COLLECTION_NAME = 'chat'
+connectClient().then(database => {
+  db = database;
+}).catch(err => {
+  console.error("Failed to connect to MongoDB", err);
+});
+
+// const chat = {}
+
+app.get('/api/data/:appName',  async (req, res) => {
+    const appName = req.params.appName;
+    try {
+    const collection = db.collection(COLLECTION_NAME);
+    const appData = await collection.findOne({ appName });
+    if (appData) {
+      res.send(appData.data);
+    } else {
+      res.status(404).send({});
+    }
+    } catch (error) {
+        console.error('Error retrieving data:', error);
+        res.status(500).send({ message: 'Internal Server Error' });
+    }
+    // if (chat[appName]) {
+    //     res.send(chat[appName]);
+    // } else {
+    //     res.status(404).send({});
+    // }
+
+    
+});
+
+app.post('/api/data/:appName',  async(req, res) => {
+    const appName = req.params.appName;
+    const data = req.body;
+    
+    try {
+    const collection = db.collection(COLLECTION_NAME);
+    await collection.updateOne(
+      { appName },
+      { $set: { data } },
+      { upsert: true }
+    );
+    console.log('Received data:', data);
+    res.status(200).send({ message: 'Data received successfully' });
+    } catch (error) {
+        console.error('Error storing data:', error);
+        res.status(500).send({ message: 'Internal Server Error' });
+    }
+    // if (!chat[appName]) {
+    //     chat[appName] = [];
+    // }
+    
+    // chat[appName] = data;
+    // console.log('Received data:', data);
+    // res.status(200).send({ message: 'Data received successfully' }); 
 });
 
 app.listen(port, () => {
