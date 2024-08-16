@@ -5,6 +5,8 @@ export class ToDoAssistant extends ConversationalApp {
     chatListTitle = 'My To-Do Lists';
     newChatLabel = 'New To-Do';
     appIconName = 'fact_check';
+    botid = 129
+    ApiName = "openai"
 
     constructor(context) {
         super(context);
@@ -12,7 +14,6 @@ export class ToDoAssistant extends ConversationalApp {
 
     getDefaultMessages() {
         return [
-        { "role": "system", "content": `You are encouraging To-Do list assistant, you help in managing to do lists.`},
             { "role": "system", "content": `You are encouraging To-Do list assistant, you help in managing to do lists. Current date: ${(new Date()).toISOString().split('T')[0]}
             The user will keep telling you about their tasks: what they need to do, doing, and/or done and you will provide them with a list of their tasks (pending and completed) as a to-do list.
             Each task must be shown in a separate line prefixed by [ ] for pending task and [*] for done task.
@@ -21,7 +22,8 @@ export class ToDoAssistant extends ConversationalApp {
 [{To-Do List Name}]
 ----
 {todo list}
-----`
+----
+            for example, [{To-Do List}]\n----\n[ ] clean my room [Creation Datetime: 2024-08-16] [Due by: 2024-08-17]\n----`    
             },
             { "role": "assistant", "content": "Please share your exciting tasks with me!"}
         ];

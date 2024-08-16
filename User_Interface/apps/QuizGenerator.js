@@ -6,19 +6,24 @@ export class QuizGenerator extends ConversationalApp {
     newChatLabel = 'New Topic';
     chatStartInstruction = 'Please provide the article/document/topic that you want to generate a quiz for.';
     appIconName = 'quiz';
-
+    botid = 125
+    ApiName = "openai"
+    
     constructor(context) {
         super(context);
     }
 
     getDefaultMessages() {
         const mainMessage = `
-        I'll or you'll provide an article or document content and you will generate a comprehensive multiple choice quiz that covers only the provided content.
-        Please provide the quiz in YAML format delimited by four dashes (----) based on the following JSON schema:
+        you'll provide content based on the topic I asked and you will generate a comprehensive multiple choice quiz that covers only the provided content.
+        Please provide the quiz in YAML format delimited by four dashes (----),based on the following JSON schema:
         ${JSON.stringify(this.getResponseSchema(), null, 2)}
+        for example: "content" : "----\nQuestions:\n  - Question: What percentage of survey respondents prefer coffee over tea?\n    CorrectAnswerLetter: A\n    Choices:\n      - Choice: 68%\n        Letter: A\n      - Choice: 42%\n        Letter: B\n      - Choice: 34%\n        Letter: C\n      - Choice: 52%\n        Letter: D\n\nQuizTitle: Coffee and Lifestyle Choices Survey Analysis\n----"
+        }, 
 
         Only one choice can be correct, if there are multiple correct choices, then the correct choices should be combined into a new choice. For example, if options A and C are both correct, the new choice could be "A and C."
         `;
+        console.log("mainMessage = " + mainMessage)
         return [
             { "role": "system", "content": "You are Quizzer, the quiz generator."},
             { "role": "user", "content": mainMessage},
@@ -33,6 +38,7 @@ export class QuizGenerator extends ConversationalApp {
     }
 
     getTextMessage(message) {
+        console.log("getTextMessage")
         const messageParts = message.split(/----*/g);
         let responseMessage = (messageParts[0] || '').trim();
         responseMessage += '\n' + (messageParts.length <= 2 ? '' : messageParts.slice(2).join('\n').trim());
@@ -40,16 +46,20 @@ export class QuizGenerator extends ConversationalApp {
     }
 
     getAppContentData(message) {
+        console.log("getAppContentData", message)
         const messageParts = message.split(/----*/g);
+        console.log("messageParts[1]", messageParts[1])
 
         let yaml = messageParts[1] || null;
         if(!yaml) {
             return null;
         }
+        console.log("yaml",yaml)
         return this.parseYaml(yaml);
     }
 
     getAppContent(message) {
+        console.log("getAppContent")
         let quizInfo = this.getAppContentData(message);
         if(!quizInfo) {
             return null;

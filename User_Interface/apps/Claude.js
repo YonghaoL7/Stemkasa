@@ -11,6 +11,7 @@ export class Claude extends ConversationalApp {
     botid = 31;
     model = "claude-3-5-sonnet-20240620";
     modelMaxTokens = 1024;
+    ApiName = 'Claude'
 
     constructor(context) {
         super(context);

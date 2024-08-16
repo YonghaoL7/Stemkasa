@@ -8,9 +8,10 @@ class StoryTellingApp extends ConversationalApp {
     newChatLabel = 'New Story';
     appIconName = 'book';
     chatStartInstruction = 'Please provide your age and the topic of the story';
-
+    botid=128
     model = "gpt-3.5-turbo";
     modelMaxTokens = 16384;
+    ApiName = "openai"
 
     constructor(context) {
         super(context);

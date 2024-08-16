@@ -6,18 +6,15 @@ export class StatisticalDataAnalyzer extends ConversationalApp {
   newChatLabel = 'New Data';
   chatStartInstruction = 'Please provide me with the data you want to analyze';
   appIconName = 'insert_chart';
-  
+  botid=127
   temperature = 0;
+  ApiName = "openai"
 
   constructor(context) {
     super(context);
-    
   }
 
-
-  
-   getDefaultMessages() {
-    
+  getDefaultMessages() {
     return [
       {
         "role": "system", "content": `You are data analyzer, your role is to analyzing and interpreting the data 

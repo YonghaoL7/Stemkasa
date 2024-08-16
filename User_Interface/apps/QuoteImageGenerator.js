@@ -6,8 +6,9 @@ export class QuoteImageGenerator extends ConversationalApp {
     newChatLabel = 'New Quote';
     chatStartInstruction = 'Please provide the subject of the quote you want.';
     appIconName = 'format_quote';
-
+    botid=126
     temperature = 1;
+    ApiName = "openai"
 
     constructor(context) {
         super(context);

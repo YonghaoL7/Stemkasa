@@ -8,9 +8,10 @@ class ImageGeneratorApp extends ConversationalApp {
     newChatLabel = 'New Image';
     appIconName = 'palette';
     chatStartInstruction = 'Please let me know what you are trying to innovate?';
-
+    botid=124
     model = "gpt-3.5-turbo";
     modelMaxTokens = 16384;
+    ApiName = "openai"
 
     constructor(context) {
         super(context);
