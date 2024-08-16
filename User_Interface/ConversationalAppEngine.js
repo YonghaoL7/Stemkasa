@@ -239,7 +239,7 @@ export class ConversationalAppEngine {
                     messages.push(responseMessageObject);
                     chat.usage.push(completion.usage);
                     // this.storeData();
-                    // await this.storeData(userid, chatid, message, responseMessage)
+                    await this.storeData(userid, chatid, message, responseMessage)
 
                     const response = {
                         status: 'success',
@@ -291,7 +291,7 @@ export class ConversationalAppEngine {
                     messages.push(responseMessageObject);
                     chat.usage.push(completion.usage);
                     // this.storeData();
-                    // await this.storeData(userid, chatid, message, responseMessage)
+                    await this.storeData(userid, chatid, message, responseMessage)
 
                     const response = {
                         status: 'success',
