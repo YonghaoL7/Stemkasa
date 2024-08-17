@@ -1,2 +1,4 @@
 node_modules/*
 data/*
+app-resources/*
+!app-resources/dummyfile
