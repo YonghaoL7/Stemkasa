@@ -5,7 +5,7 @@ const groq = new Groq({
     //apiKey: ProcessingInstruction.env.GROQ_API_KEY
     //apiKey: "",
     //apiKey: process.env.REACT_APP_GROQ_API_KEY,
-    apiKey:"",
+    apiKey:"INSERT",
     dangerouslyAllowBrowser: true
 });
 
