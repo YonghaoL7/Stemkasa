@@ -5,7 +5,7 @@ import bodyParser from 'body-parser';
 import cors from 'cors';
 import fs from 'fs';
 
-const port = 3000;
+const port = 8080;
 
 
 const defaultEngineClassName = 'QuizGenerator';

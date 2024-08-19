@@ -10,7 +10,7 @@ export class Claude extends ConversationalApp {
     chatStartInstruction = 'Please provide your question';
     botid = 31;
     model = "claude-3-5-sonnet-20240620";
-    modelMaxTokens = 1024;
+    modelMaxTokens = 4096;
     ApiName = 'Claude'
 
     constructor(context) {
@@ -26,7 +26,17 @@ export class Claude extends ConversationalApp {
         return "Claude Chat"
     }
 
-    getTextMessage(responseMessage){}
+    getTextMessage(responseMessage){return `<p>${responseMessage}</p>`;
+    }
 
-    getAppContent(responseMessage) { }
+    getAppContent(responseMessage) {return `<div class="content-container">${responseMessage}</div>
+    <style>
+        .content-container {
+            background-color: #f5f5f5;
+            border-radius: 10px;
+            padding: 20px;
+            font-size: 14px;
+            margin: 20px 0;
+        }
+    </style>`; }
 }

@@ -77,7 +77,7 @@ export class ConversationalAppEngine {
                 );
                 return acc;
             }, {}); 
-            console.log("loadData" + JSON.stringify(this.userMessages, null, 2))
+            //console.log("loadData" + JSON.stringify(this.userMessages, null, 2))
         } catch (error) {
             console.error('Error fetching data:', error);
         }
@@ -211,10 +211,11 @@ export class ConversationalAppEngine {
         const chat = this.getChat(user, chatid);
         const messages = chat.messages;
         const availableFunctions = this.app.getAvailableFunctions();
-
+        console.log("chat", chat);
         messages.push({ "role": "user", "content": message });
 
         if (this.app.ApiName == "Claude"){
+            console.log("messages", messages);
             try {
                 this.anthropic.messages.create({
                     messages: messages,
